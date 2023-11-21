@@ -5,7 +5,7 @@ export interface Tarefa {
     titulo: string,
     descricao: string,
     criadoEm?: string,
-    categoria: Categoria,
+    categoria?: Categoria,
     categoriaId: number,
     status: string
 }

@@ -15,9 +15,7 @@ export class TarefaListarComponent implements OnInit {
     "descricao",
     "criadoEm",
     "categoria",
-    "status",
-    "alterar",
-    "deletar"
+    "status"
   ]
 
   tarefas: Tarefa[] = [];

@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { Tarefa } from "src/app/models/tarefa.model";
 import { ActivatedRoute } from "@angular/router";
 import { Categoria } from "src/app/models/categoria.model";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-tarefa-cadastrar",
@@ -9,88 +10,49 @@ import { Categoria } from "src/app/models/categoria.model";
   styleUrls: ["./tarefa-cadastrar.component.css"],
 })
 export class TarefaCadastrarComponent {
-
-  titulo: string = '';
-  descricao: string = '';
-  criadoEm: string = '';
-  categoriaId: number =  0;
+  titulo: string = "";
+  descricao: string = "";
+  criadoEm: string = "";
+  categoriaId: number = 0;
   categorias: Categoria[] = [];
-  status: string = '';
+  status: string = "";
 
-  constructor(
-    private route: ActivatedRoute,
-  ) {}
+  constructor(private route: ActivatedRoute, private client: HttpClient) {}
 
-  // ngOnInit() {
-  //   this.route.params.subscribe((params) => {
-  //     // pego o id que vem na url para edição
-  //     const tarefaId = +params["id"];
-  //     if (tarefaId) {
-  //       console.log("ID da tarefa:", tarefaId);
+  ngOnInit() {
+    this.client
+      .get<Categoria[]>("https://localhost:7015/api/categoria/listar")
+      .subscribe({
+        next: (categorias) => {
+          console.log(categorias);
+          this.categorias = categorias;
+        },
+        error: (erro) => {
+          console.log(erro);
+        },
+      });
+  }
 
-  //       // busco a tarefa para preencher os campos
-  //       this.buscarTarefaPorId(tarefaId);
-  //     }
-  //   });
-  // }
+  salvarTarefa() {
+    let tarefa: Tarefa = {
+      titulo: this.titulo,
+      descricao: this.descricao,
+      criadoEm: this.criadoEm,
+      categoriaId: this.categoriaId,
+      status: this.status,
+    };
 
-  // buscarTarefaPorId(tarefaId: number) {
-  //   this.tarefaService.getTarefaPorId(tarefaId).subscribe((tarefa) => {
-  //     this.tarefa = tarefa;
-  //   });
-  // }
-
-  // salvarTarefa() {
-  //   if (this.tarefa.titulo === "") {
-  //     this.abrirModal("Campo obrigatório", "Titulo deve ser preenchido");
-  //   } else {
-  //     if (this.tarefa.tarefaId == null) {
-  //       try {
-  //         if (this.tarefa.concluirEm != null) {
-  //           this.formataData(this.tarefa.concluirEm);
-  //         }
-  //         this.tarefaService.salvarTarefa(this.tarefa);
-  //       } catch (error) {
-  //         console.log("Erro ao salvar tarefa: ", error);
-  //         return this.abrirModal("Indisponibilidade", "Erro ao salvar tarefa");
-  //       }
-
-  //       return this.abrirModal("Sucesso", "Tarefa salva com sucesso!");
-  //     } else {
-  //       this.editarTarefa();
-  //     }
-  //   }
-  // }
-
-  // editarTarefa() {
-  //   try {
-  //     this.tarefaService.editarTarefa(this.tarefa);
-  //   } catch (error) {
-  //     console.log("Erro ao editar tarefa: ", error);
-  //     return this.abrirModal("Indisponibilidade", "Erro ao editar tarefa");
-  //   }
-
-  //   return this.abrirModal("Sucesso", "Tarefa alterada com sucesso!");
-  // }
-
-  // formataData(date: Date) {
-  //   const data = new Date(date);
-  //   const timezoneOffset = data.getTimezoneOffset();
-  //   const dataUTC = new Date(data.getTime() + timezoneOffset * 60 * 1000);
-  //   const dataFormatada = dataUTC.toISOString();
-  //   this.tarefa.concluirEm = new Date(dataFormatada);
-
-  //   console.log("converteu a data", this.tarefa.concluirEm);
-  // }
-
-  // abrirModal(title: string, message: string) {
-  //   const dialogRef = this.dialog.open(DialogComponent, {
-  //     width: "300px",
-  //     data: { title, message },
-  //   });
-
-  //   dialogRef.afterClosed().subscribe((result) => {
-
-  //   });
-  // }
+    this.client
+      .post<Tarefa>("https://localhost:7015/api/tarefa/cadastrar", tarefa)
+      .subscribe({
+        //A requição funcionou
+        next: (tarefa) => {
+          alert("cadastrou!!")
+        },
+        //A requição não funcionou
+        error: (erro) => {
+          console.log(erro);
+        },
+      });
+  }
 }
