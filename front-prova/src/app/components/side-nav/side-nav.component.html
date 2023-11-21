@@ -1,0 +1,52 @@
+<mat-sidenav-container class="container-sidenav">
+    <mat-sidenav #sidenav mode="side" opened>
+
+        <div>
+            <a mat-button routerLink="/pages/tarefa/listar" class="link-side-nav primeiro-item">
+                <div class="item-sidenav">
+                    <mat-icon class="icon-sidenav">menu</mat-icon>
+                    <span class="titulo-side-nav">Minhas tarefas</span>
+                </div>
+            </a>
+
+        </div>
+        <div>
+
+            <a mat-button routerLink="pages/tarefa/concluidas" class="">
+                <div class="item-sidenav">
+                    <mat-icon class="icon-sidenav">supervisor_account</mat-icon>
+                    <span class="titulo-side-nav">Concluídas</span>
+                </div>
+            </a>
+
+        </div>
+
+        <div>
+
+            <a mat-button routerLink="pages/tarefa/naoconcluidas" class="">
+                <div class="item-sidenav">
+                    <mat-icon class="icon-sidenav">supervisor_account</mat-icon>
+                    <span class="titulo-side-nav">Não concluídas</span>
+                </div>
+            </a>
+
+        </div>
+
+        <div>
+            <a mat-button routerLink="/pages/tarefa/cadastrar" class="">
+                <div class="item-sidenav">
+                    <mat-icon>add</mat-icon>
+                    <span class="titulo-side-nav">Cadastrar</span>
+                </div>
+            </a>
+
+        </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <router-outlet> <!-- o componente da rota será aberto dentro dessa tag -->
+
+        </router-outlet>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

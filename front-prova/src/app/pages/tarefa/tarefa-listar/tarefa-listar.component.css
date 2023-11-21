@@ -1,0 +1,19 @@
+.lista-tarefas {
+    margin: 20px 30px;
+}
+
+.desativado{
+    display: none;
+}
+
+.titulo-equipe{
+    font-size: small;
+}
+
+.icone-done{
+    color: rgb(21, 160, 21);
+}
+
+.icone-undone{
+    color: rgb(157, 6, 6);
+}
